@@ -1,39 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}NoteList index{% endblock %}
+{% block title %}List index{% endblock %}
 
 {% block body %}
-    <h1>NoteList index</h1>
+    <h1>List index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Img_url</th>
-                <th>Created_at</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="cards-note-list">
+    {% if app.user %}
         {% for note_list in note_lists %}
-            <tr>
-                <td>{{ note_list.id }}</td>
-                <td>{{ note_list.title }}</td>
-                <td>{{ note_list.imgUrl }}</td>
-                <td>{{ note_list.createdAt ? note_list.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_note_list_show', {'id': note_list.id}) }}">show</a>
-                    <a href="{{ path('app_note_list_edit', {'id': note_list.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        {% if note_list.user == app.user %}
+        <div class="card card-note-list">
+            <p>{{ note_list.title }} - {{ note_list.createdAt ? note_list.createdAt|date('d-m-Y') : '' }}</p>
 
-    <a href="{{ path('app_note_list_new') }}">Create new</a>
+            <div class="cards-task">
+                {% for task in note_list.tasks %}
+                {% if task.list == note_list %}
+                <div class="card card-task">
+                    <p>{{ task.text }}</p>
+                </div>
+                {% endif %}
+                {% else %}
+                <p>Nothing (task) is here</p>
+                {% endfor %}
+            </div>
+
+            <div class="btns">
+                <a class="btn btn-secondary" href="{{ path('app_note_list_show', {'id': note_list.id}) }}">show</a>
+                <a class="btn btn-primary" href="{{ path('app_note_list_edit', {'id': note_list.id}) }}">edit</a>
+            </div>
+        </div>
+        {% endif %}
+        {% else %}
+        <p>Nothing is here</p>
+        {% endfor %}
+    {% else %}
+        <p>You need to be connected for see or use a task list</p>
+    {% endif %}
+    </div>
+
+    <a class="btn btn-primary" href="{{ path('app_note_list_new') }}">Create new</a>
 {% endblock %}

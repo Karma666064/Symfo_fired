@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit NoteList{% endblock %}
+{% block title %}Edit List{% endblock %}
 
 {% block body %}
-    <h1>Edit NoteList</h1>
+    <h1>Edit List</h1>
 
     {{ include('note_list/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_note_list_index') }}">back to list</a>
+    <a class="btn btn-primary" href="{{ path('app_note_list_index') }}">Back to list</a>
 
     {{ include('note_list/_delete_form.html.twig') }}
 {% endblock %}

@@ -1,34 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}NoteList{% endblock %}
+{% block title %}List{% endblock %}
 
 {% block body %}
-    <h1>NoteList</h1>
+    <h1>List</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ note_list.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ note_list.title }}</td>
-            </tr>
-            <tr>
-                <th>Img_url</th>
-                <td>{{ note_list.imgUrl }}</td>
-            </tr>
-            <tr>
-                <th>Created_at</th>
-                <td>{{ note_list.createdAt ? note_list.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="card card-note-list">
+        <p>{{ note_list.title }} - {{ note_list.createdAt ? note_list.createdAt|date('d-m-Y') : '' }}</p>
 
-    <a href="{{ path('app_note_list_index') }}">back to list</a>
+        <div class="cards-task">
+            {% for task in note_list.tasks %}
+            {% if task.list == note_list %}
+            <div class="card card-task">
+                <p>{{ task.text }}</p>
+            </div>
+            {% endif %}
+            {% else %}
+            <p>Nothing (task) is here</p>
+            {% endfor %}
+        </div>
 
-    <a href="{{ path('app_note_list_edit', {'id': note_list.id}) }}">edit</a>
+        {{ form_start(form_task) }}
+            {{ form_widget(form_task) }}
+            <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+        {{ form_end(form_task) }}
 
-    {{ include('note_list/_delete_form.html.twig') }}
+        <div class="btns">
+            <a class="btn btn-primary" href="{{ path('app_note_list_edit', {'id': note_list.id}) }}">Edit</a>
+            {{ include('note_list/_delete_form.html.twig') }}
+        </div>
+    </div>
+
+    <a class="btn btn-primary" href="{{ path('app_note_list_index') }}">Back to list</a>
+
 {% endblock %}

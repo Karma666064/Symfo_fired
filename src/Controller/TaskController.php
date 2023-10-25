@@ -4,23 +4,35 @@ namespace App\Controller;
 
 use App\Entity\Task;
 use App\Form\TaskType;
+use App\Repository\NoteListRepository;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use DateTimeImmutable;
 
 // #[Route('/task')]
 class TaskController extends AbstractController
 {
-    #[Route('/task', name: 'app_task', methods: ['GET'])]
-    public function index(TaskRepository $taskRepository): Response
-    {
-        return $this->render('task/index.html.twig', [
-            'tasks' => $taskRepository->findAll(),
-        ]);
-    }
+    // #[Route('/new_task/{id_list}', name: 'app_new_task', methods: ['GET'])]
+    // public function index(Int $id_list, Request $request, EntityManagerInterface $entityManager, NoteListRepository $noteListRepository): Response
+    // {
+    //     $task = new Task();
+    //     $form = $this->createForm(TaskType::class, $task);
+    //     $form->handleRequest($request);
+
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $task->setList($noteListRepository->find($id_list));
+    //         $task->setCreatedAt(new DateTimeImmutable());
+
+    //         $entityManager->persist($task);
+    //         $entityManager->flush();
+
+    //         return $this->redirectToRoute('app_note_list_show', ['id' => $id_list], Response::HTTP_SEE_OTHER);
+    //     }
+    // }
     
     // #[Route('/', name: 'app_task_index', methods: ['GET'])]
     // public function index(TaskRepository $taskRepository): Response
