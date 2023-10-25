@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}NoteList index{% endblock %}
+
+{% block body %}
+    <h1>NoteList index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Img_url</th>
+                <th>Created_at</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for note_list in note_lists %}
+            <tr>
+                <td>{{ note_list.id }}</td>
+                <td>{{ note_list.title }}</td>
+                <td>{{ note_list.imgUrl }}</td>
+                <td>{{ note_list.createdAt ? note_list.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_note_list_show', {'id': note_list.id}) }}">show</a>
+                    <a href="{{ path('app_note_list_edit', {'id': note_list.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_note_list_new') }}">Create new</a>
+{% endblock %}
