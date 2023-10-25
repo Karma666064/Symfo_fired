@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -34,6 +36,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: NoteList::class)]
+    private Collection $noteLists;
+
+    public function __construct()
+    {
+        $this->noteLists = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -125,6 +135,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCreatedAt(\DateTimeImmutable $created_at): static
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, NoteList>
+     */
+    public function getNoteLists(): Collection
+    {
+        return $this->noteLists;
+    }
+
+    public function addNoteList(NoteList $noteList): static
+    {
+        if (!$this->noteLists->contains($noteList)) {
+            $this->noteLists->add($noteList);
+            $noteList->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNoteList(NoteList $noteList): static
+    {
+        if ($this->noteLists->removeElement($noteList)) {
+            // set the owning side to null (unless already changed)
+            if ($noteList->getUser() === $this) {
+                $noteList->setUser(null);
+            }
+        }
 
         return $this;
     }
