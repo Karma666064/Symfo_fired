@@ -10,6 +10,9 @@
         {% for note_list in note_lists %}
         {% if note_list.user == app.user %}
         <div class="card card-note-list">
+            <div class="img-note-list">
+                <img src="{{ asset('uploads/imgs/lists/'~note_list.imgUrl) }}">
+            </div>
             <p>{{ note_list.title }} - {{ note_list.createdAt ? note_list.createdAt|date('d-m-Y') : '' }}</p>
 
             <div class="cards-task">
