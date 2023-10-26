@@ -13,6 +13,12 @@ The project with Etienne for evaluate my competences
 ```bash
 composer install
 ```
+- Copy the .env and paste with the name .env.local and config your database
+if your database is mysql and is local (line 27)
+```
+DATABASE_URL="mysql://root@127.0.0.1:3306/symfo_fired?charset=utf8mb4"
+DATABASE_URL="mysql://[username][password]@127.0.0.1:3306/[database name]?charset=utf8mb4"
+```
 - Execute the migration command :
 ```bash
 symfony console d:m:m
