@@ -1,23 +1,36 @@
-<nav class="navbar navbar-expand-lg bg-primary mb-3">
-	<div class="container-fluid">
-		<a class="navbar-brand" href="{{ path('app_home') }}">Music Market</a>
-
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-			aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-
-		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-			<div class="navbar-nav">
-				<a class="nav-link" href="{{ path('app_home') }}">Home</a>
-				{% if not app.user %}
-					<a class="nav-link" href="{{ path('app_login') }}">Login</a>
-					<a class="nav-link" href="{{ path('app_register') }}">Register</a>
-				{% else %}
-					<a class="nav-link" href="{{ path('app_note_list_index') }}">My Lists</a>
-					<a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
+<nav class="navbar bg-secondary text-neutral">
+	<div class="navbar-start">
+		<div class="dropdown">
+			<label tabindex="0" class="btn btn-ghost lg:hidden">
+				<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+					stroke="currentColor">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+				</svg>
+			</label>
+			<ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+				{% if app.user %}
+				<li><a href="{{ path('app_home') }}">Home</a></li>
+				<li><a class="" href="{{ path('app_note_list_index') }}">My Lists</a></li>
 				{% endif %}
-			</div>
+			</ul>
 		</div>
+		<a class="btn btn-ghost uppercase text-2xl tracking-wide hover:text-primary">Fired</a>
+	</div>
+	<div class="navbar-center hidden lg:flex">
+		<ul class="menu menu-horizontal px-1 text-lg">
+			{% if app.user %}
+			<li><a href="{{ path('app_home') }}">Home</a></li>
+			<li><a href="{{ path('app_note_list_index') }}">My Lists</a></li>
+			{% endif %}
+		</ul>
+	</div>
+	<div class="navbar-end">
+		{% if not app.user %}
+		<a class="btn btn-primary btn-sm" href="{{ path('app_login') }}">Login</a>
+		<a class="btn btn-primary btn-sm" href="{{ path('app_register') }}">Register</a>
+		{% else %}
+		<a class="btn btn-error btn-sm" href="{{ path('app_logout') }}">Logout</a>
+		{% endif %}
+		
 	</div>
 </nav>

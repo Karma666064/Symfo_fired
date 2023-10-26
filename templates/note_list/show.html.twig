@@ -3,34 +3,36 @@
 {% block title %}List{% endblock %}
 
 {% block body %}
-    <h1>List</h1>
+<main class="flex flex-col items-center my-16 gap-8">
+    <div class="card card-side w-[50%] max-h-[556px] bg-secondary shadow-xl text-neutral">
+        <figure><img class="max-h-64 rounded-lg" src="{{ asset('uploads/imgs/lists/'~note_list.imgUrl) }}"/></figure>
+        <div class="card-body">
+            <h2 class="card-title">{{ note_list.title }} - <span class="text-sm">{{ note_list.createdAt ? note_list.createdAt|date('d-m-Y') : '' }}</span></h2>
 
-    <div class="card card-note-list">
-        <p>{{ note_list.title }} - {{ note_list.createdAt ? note_list.createdAt|date('d-m-Y') : '' }}</p>
-
-        <div class="cards-task">
-            {% for task in note_list.tasks %}
-            {% if task.list == note_list %}
-            <div class="card card-task">
-                <p>{{ task.text }}</p>
+            <div class="cards-task truncate max-h-24">
+                {% for task in note_list.tasks %}
+                {% if task.list == note_list %}
+                <ul class="card-task list-disc">
+                    <li>{{ task.text }}</li>
+                </ul>
+                {% endif %}
+                {% else %}
+                <p>Nothing (task) is here</p>
+                {% endfor %}
             </div>
-            {% endif %}
-            {% else %}
-            <p>Nothing (task) is here</p>
-            {% endfor %}
-        </div>
 
-        {{ form_start(form_task) }}
+            {{ form_start(form_task) }}
             {{ form_widget(form_task) }}
-            <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
-        {{ form_end(form_task) }}
+            <button class="btn btn-primary btn-outline btn-sm">{{ button_label|default('Save') }}</button>
+            {{ form_end(form_task) }}
 
-        <div class="btns">
-            <a class="btn btn-primary" href="{{ path('app_note_list_edit', {'id': note_list.id}) }}">Edit</a>
-            {{ include('note_list/_delete_form.html.twig') }}
+            <div class="card-actions justify-end items-end">
+                <a class="btn btn-primary btn-outline btn-sm" href="{{ path('app_note_list_edit', {'id': note_list.id}) }}">Edit List</a>
+                {{ include('note_list/_delete_form.html.twig') }}
+            </div>
         </div>
     </div>
 
     <a class="btn btn-primary" href="{{ path('app_note_list_index') }}">Back to list</a>
-
+</main>
 {% endblock %}
